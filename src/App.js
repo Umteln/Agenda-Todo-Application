@@ -1,24 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import LoginContainer from './components/LoginContainer';
+import ProfileContainer from './components/ProfileContainer';
+import TasksContainer from './components/TasksContainer';
+import ProtectedRoutes from './ProtectedRoutes';
+import { BrowserRouter, Routes, Route, Switch } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const loggedInCheck = localStorage.getItem('isLoggedIn');
+    if (loggedInCheck === 'true') {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <RecoilRoot>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path='/'
+            element={<LoginContainer setIsLoggedIn={setIsLoggedIn} />}
+          />
+          <Route element={<ProtectedRoutes />}>
+            <Route
+              path='/tasks'
+              element={<TasksContainer />}
+            />
+            <Route
+              path='/profile'
+              element={<ProfileContainer />}
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </RecoilRoot>
   );
 }
 

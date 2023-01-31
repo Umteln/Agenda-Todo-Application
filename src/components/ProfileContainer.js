@@ -2,10 +2,10 @@ import React from 'react';
 import Navbar from './Navbar';
 import Profile from './Profile';
 
-const ProfileContainer = ({ setIsLoggedIn }) => {
+const ProfileContainer = () => {
   return (
     <div>
-      <Navbar setIsLoggedIn={setIsLoggedIn} />
+      <Navbar  />
       <Profile />
     </div>
   );

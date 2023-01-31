@@ -1,32 +1,43 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { UserAuth } from '../AuthContext/AuthContext';
 
-const Navbar = ({ setIsLoggedIn }) => {
-  const handleLogout = () => {
-    setIsLoggedIn(false);
+const Navbar = () => {
+	const { user, logOut } = UserAuth();
 
-    localStorage.setItem('isLoggedIn', 'false');
-  };
+	const handleLogOut = () => {
+		logOut();
+	};
 
-  return (
-    <nav>
-      <Link
-        to='/tasks'
-        className='NavLink'
-      >
-        Manage To Do
-      </Link>
+	return (
+		<nav>
+			<Link
+				to='/tasks'
+				className='NavLink'
+			>
+				Manage To Do
+			</Link>
+			<Link
+				to='/calendar'
+				className='NavLink'
+			>
+				Calendar
+			</Link>
+			<Link
+				to='/profile'
+				className='NavLink'
+			>
+				Profile
+			</Link>
 
-      <Link
-        to='/profile'
-        className='NavLink'
-      >
-        Profile
-      </Link>
-
-      <button onClick={handleLogout}>Logout</button>
-    </nav>
-  );
+			<button
+				className='NavLink'
+				onClick={handleLogOut}
+			>
+				Logout
+			</button>
+		</nav>
+	);
 };
 
 export default Navbar;

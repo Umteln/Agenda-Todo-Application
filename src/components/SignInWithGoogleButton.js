@@ -1,15 +1,14 @@
 import React from 'react';
 
-const SubmitButton = ({ handleSubmit, disabled, label }) => {
+const SignInWithGoogleButton = ({ handleSubmit }) => {
 	return (
 		<button
 			className='submit-button'
 			onClick={handleSubmit}
-			disabled={disabled}
 		>
-			{label}
+			Sign In With Google
 		</button>
 	);
 };
 
-export default SubmitButton;
+export default SignInWithGoogleButton;

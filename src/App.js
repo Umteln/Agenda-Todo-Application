@@ -1,45 +1,48 @@
 import React, { useState, useEffect } from 'react';
+import './App.css';
 import LoginContainer from './components/LoginContainer';
 import ProfileContainer from './components/ProfileContainer';
 import TasksContainer from './components/TasksContainer';
 import ProtectedRoutes from './ProtectedRoutes';
-import { BrowserRouter, Routes, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+import CalendarContainer from './components/CalendarContainer';
+import { AuthContextProvider } from './AuthContext/AuthContext';
+import RegistrationContainer from './components/RegistrationContainer';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const loggedInCheck = localStorage.getItem('isLoggedIn');
-    if (loggedInCheck === 'true') {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
-
-  return (
-    <RecoilRoot>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path='/'
-            element={<LoginContainer setIsLoggedIn={setIsLoggedIn} />}
-          />
-          <Route element={<ProtectedRoutes />}>
-            <Route
-              path='/tasks'
-              element={<TasksContainer />}
-            />
-            <Route
-              path='/profile'
-              element={<ProfileContainer />}
-            />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </RecoilRoot>
-  );
+	return (
+		<RecoilRoot>
+			<AuthContextProvider>
+				<BrowserRouter>
+					<Routes>
+						<Route
+							path='/'
+							element={<LoginContainer />}
+						/>
+						<Route
+							path='/register'
+							element={<RegistrationContainer />}
+						/>
+						<Route element={<ProtectedRoutes />}>
+							<Route
+								path='/tasks'
+								element={<TasksContainer />}
+							/>
+							<Route
+								path='/calendar'
+								element={<CalendarContainer />}
+							/>
+							<Route
+								path='/profile'
+								element={<ProfileContainer />}
+							/>
+						</Route>
+					</Routes>
+				</BrowserRouter>
+			</AuthContextProvider>
+		</RecoilRoot>
+	);
 }
 
 export default App;

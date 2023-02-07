@@ -4,18 +4,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { UserAuth } from '../AuthContext/AuthContext';
 import SignInWithGoogleButton from './SignInWithGoogleButton';
 import { TextField, Typography } from '@mui/material';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';
 
 const LoginContainer = () => {
+	const { logIn, user } = UserAuth();
 	const navigate = useNavigate();
-
-	// const [emailIsValid, setEmailIsValid] = useState();
-	// const [passwordIsValid, setPasswordIsValid] = useState();
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [error, setError] = useState('');
 	const { SignInWithGoogle, setIsLoggedIn, isLoggedIn } = UserAuth();
-	const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
-	const [loginPassword, setLoginPassword] = useState();
-	const [loginEmail, setLoginEmail] = useState();
 
 	useEffect(() => {
 		if (isLoggedIn) {
@@ -23,44 +19,18 @@ const LoginContainer = () => {
 		}
 	}, [isLoggedIn, navigate]);
 
-	const handleLogin = async () => {
+	const handleLogin = async (e) => {
+		e.preventDefault();
+		setError('');
 		try {
-			const user = await signInWithEmailAndPassword(
-				auth,
-				loginEmail,
-				loginPassword
-			);
-			setIsLoggedIn(true);
-			localStorage.setItem('isLoggedIn', 'true');
+			await logIn(email, password);
 			console.log(user);
+			navigate('/tasks');
 		} catch (error) {
-			console.log(error.message);
+			console.log(error);
+			setError(error.message);
 		}
 	};
-
-	// useEffect(() => {
-	// 	if (emailIsValid && passwordIsValid) {
-	// 		setIsSubmitButtonDisabled(false);
-	// 	} else {
-	// 		setIsSubmitButtonDisabled(true);
-	// 	}
-	// }, [emailIsValid, passwordIsValid]);
-
-	// const validateEmail = (user) => {
-	// 	if (user.includes('@')) {
-	// 		setEmailIsValid(true);
-	// 	} else {
-	// 		setEmailIsValid(false);
-	// 	}
-	// };
-
-	// const validatePassword = (user) => {
-	// 	if (user.length >= 8) {
-	// 		setPasswordIsValid(true);
-	// 	} else {
-	// 		setPasswordIsValid(false);
-	// 	}
-	// };
 
 	const handleGoogleSignIn = async () => {
 		try {
@@ -72,14 +42,6 @@ const LoginContainer = () => {
 		}
 	};
 
-	// const handleSubmit = async () => {
-	// 	setUser(user);
-	// 	setIsLoggedIn(true);
-	// 	localStorage.setItem('username', user.username);
-
-	// 	localStorage.setItem('isLoggedIn', 'true');
-	// };
-
 	return (
 		<div className='login-box'>
 			<div className='login-title'>Login </div>
@@ -88,32 +50,28 @@ const LoginContainer = () => {
 				sx={{ m: '20px 0' }}
 				type='text'
 				label='Email'
-				onChange={(e) => setLoginEmail(e.target.value)}
+				onChange={(e) => setEmail(e.target.value)}
 				name='email'
 			/>
 			<TextField
 				fullWidth
 				type='password'
 				label='Password'
-				onChange={(e) => setLoginPassword(e.target.value)}
+				onChange={(e) => setPassword(e.target.value)}
 				name='password'
 			/>
 
-			<Link to='/tasks'>
-				<SubmitButton
-					handleSubmit={handleLogin}
-					label='Submit'
-				/>
-			</Link>
+			<SubmitButton
+				handleSubmit={handleLogin}
+				label='Submit'
+			/>
 
-			<Link to='/tasks'>
-				<SignInWithGoogleButton
-					label='Login With Google'
-					handleSubmit={handleGoogleSignIn}
-					disabled={isSubmitButtonDisabled}
-				/>
-			</Link>
-			<Link to='/register'>
+			<SignInWithGoogleButton
+				label='Login With Google'
+				handleSubmit={handleGoogleSignIn}
+			/>
+
+			<Link to='/signup'>
 				<Typography sx={{ mt: '10px', textAlign: 'center' }}>
 					Create an account
 				</Typography>

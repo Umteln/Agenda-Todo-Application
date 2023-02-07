@@ -1,12 +1,18 @@
 import { useContext, createContext, useState, useEffect } from 'react';
-import { signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
-import { auth, provider } from '../firebase';
-
+import {
+	signInWithPopup,
+	signOut,
+	onAuthStateChanged,
+	createUserWithEmailAndPassword,
+	signInWithEmailAndPassword,
+} from 'firebase/auth';
+import { auth, provider, db } from '../firebase';
+import { setDoc, doc } from 'firebase/firestore';
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
 	const [user, setUser] = useState();
-	const [isLoggedIn, setIsLoggedIn] = useState(true);
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 	useEffect(() => {
 		const loggedInCheck = localStorage.getItem('isLoggedIn');
@@ -27,15 +33,32 @@ export const AuthContextProvider = ({ children }) => {
 			});
 	};
 
+	//sign up
+	const signUp = (email, password) => {
+		createUserWithEmailAndPassword(auth, email, password);
+		setDoc(doc(db, 'users', email), {
+			//adds new user to database
+			tasks: [],
+			events: [],
+		});
+		setIsLoggedIn(true);
+	};
+
+	//log in
+	const logIn = (email, password) => {
+		signInWithEmailAndPassword(auth, email, password);
+		setIsLoggedIn(true);
+	};
+
+	//log out
 	const logOut = () => {
-		setIsLoggedIn(false);
 		signOut(auth);
+		setIsLoggedIn(false);
 	};
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
 			setUser(currentUser);
-			console.log('User', user);
 		});
 		return () => {
 			unsubscribe();
@@ -44,7 +67,15 @@ export const AuthContextProvider = ({ children }) => {
 
 	return (
 		<AuthContext.Provider
-			value={{ SignInWithGoogle, logOut, user, isLoggedIn, setIsLoggedIn }}
+			value={{
+				SignInWithGoogle,
+				signUp,
+				logIn,
+				logOut,
+				user,
+				isLoggedIn,
+				setIsLoggedIn,
+			}}
 		>
 			{children}
 		</AuthContext.Provider>

@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Paper, Container, Avatar, Typography, Button } from '@mui/material';
 import EditProfileDialog from './EditProfileDialog';
-import { useRecoilState } from 'recoil';
-import { isLoggedInAtom } from '../recoil/atoms';
 import { UserAuth } from '../AuthContext/AuthContext';
 
 const Profile = () => {
 	const [open, setOpen] = useState(false);
-	const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInAtom);
+	const { user, setIsLoggedIn } = UserAuth();
 
-	const { user } = UserAuth();
 	const [currentUser, setCurrentUser] = useState({
 		name: '',
 		description: '',
 	});
-	
+
 	useEffect(() => {
 		setIsLoggedIn(true);
 	}, []);

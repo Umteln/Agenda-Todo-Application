@@ -14,7 +14,7 @@ const TaskDisplayContainer = () => {
 			snapshot.forEach((task) => {
 				tempArray.push({ id: task.id, ...task.data() });
 			});
-			
+
 			setTasks(tempArray);
 		};
 		getTasks();

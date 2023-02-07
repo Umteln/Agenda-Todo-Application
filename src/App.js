@@ -8,7 +8,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import CalendarContainer from './components/CalendarContainer';
 import { AuthContextProvider } from './AuthContext/AuthContext';
-import RegistrationContainer from './components/RegistrationContainer';
+import SignUpContainer from './components/SignUpContainer';
 
 function App() {
 	return (
@@ -21,8 +21,8 @@ function App() {
 							element={<LoginContainer />}
 						/>
 						<Route
-							path='/register'
-							element={<RegistrationContainer />}
+							path='/signup'
+							element={<SignUpContainer />}
 						/>
 						<Route element={<ProtectedRoutes />}>
 							<Route

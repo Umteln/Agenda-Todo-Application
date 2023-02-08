@@ -1,30 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import SubmitButton from './SubmitButton';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserAuth } from '../AuthContext/AuthContext';
-import SignInWithGoogleButton from './SignInWithGoogleButton';
+
 import { TextField, Typography } from '@mui/material';
 
 const LoginContainer = () => {
-	const { logIn, user } = UserAuth();
-	const navigate = useNavigate();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
-	const { SignInWithGoogle, setIsLoggedIn, isLoggedIn } = UserAuth();
+	const { user, logIn } = UserAuth();
+	const navigate = useNavigate();
 
-	useEffect(() => {
-		if (isLoggedIn) {
-			navigate('/tasks');
-		}
-	}, [isLoggedIn, navigate]);
-
-	const handleLogin = async (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setError('');
 		try {
 			await logIn(email, password);
-			console.log(user);
 			navigate('/tasks');
 		} catch (error) {
 			console.log(error);
@@ -32,19 +24,10 @@ const LoginContainer = () => {
 		}
 	};
 
-	const handleGoogleSignIn = async () => {
-		try {
-			await SignInWithGoogle();
-			setIsLoggedIn(true);
-			localStorage.setItem('isLoggedIn', 'true');
-		} catch (error) {
-			console.log(error);
-		}
-	};
-
 	return (
 		<div className='login-box'>
 			<div className='login-title'>Login </div>
+			{error ? <p>{error}</p> : null}
 			<TextField
 				fullWidth
 				sx={{ m: '20px 0' }}
@@ -62,13 +45,8 @@ const LoginContainer = () => {
 			/>
 
 			<SubmitButton
-				handleSubmit={handleLogin}
+				handleSubmit={handleSubmit}
 				label='Submit'
-			/>
-
-			<SignInWithGoogleButton
-				label='Login With Google'
-				handleSubmit={handleGoogleSignIn}
 			/>
 
 			<Link to='/signup'>

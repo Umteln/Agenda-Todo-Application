@@ -5,16 +5,12 @@ import { UserAuth } from '../AuthContext/AuthContext';
 
 const Profile = () => {
 	const [open, setOpen] = useState(false);
-	const { user, setIsLoggedIn } = UserAuth();
+	const { user } = UserAuth();
 
 	const [currentUser, setCurrentUser] = useState({
-		name: '',
-		description: '',
+		name: 'Beyonce',
+		description: 'Queen B',
 	});
-
-	useEffect(() => {
-		setIsLoggedIn(true);
-	}, []);
 
 	const handleEdit = () => {
 		setOpen(true);
@@ -45,15 +41,19 @@ const Profile = () => {
 						variant='h2'
 						align='center'
 					>
-						{user?.displayName
-							? user.displayName
-							: localStorage.getItem('username')}
+						{user?.displayName ? user.displayName : currentUser.name}
 					</Typography>
 					<Typography
 						variant='body1'
 						align='center'
 					>
 						{currentUser.description}
+					</Typography>
+					<Typography
+						variant='body1'
+						align='center'
+					>
+						{user?.email}
 					</Typography>
 					<Button
 						onClick={handleEdit}

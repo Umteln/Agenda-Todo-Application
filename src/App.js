@@ -3,12 +3,12 @@ import './App.css';
 import LoginContainer from './components/LoginContainer';
 import ProfileContainer from './components/ProfileContainer';
 import TasksContainer from './components/TasksContainer';
-import ProtectedRoutes from './ProtectedRoutes';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import CalendarContainer from './components/CalendarContainer';
 import { AuthContextProvider } from './AuthContext/AuthContext';
 import SignUpContainer from './components/SignUpContainer';
+import ProtectedRoutes from './components/ProtectedRoute';
 
 function App() {
 	return (

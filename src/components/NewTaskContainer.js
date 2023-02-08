@@ -2,19 +2,18 @@ import React, { useState, useEffect } from 'react';
 import SubmitButton from './SubmitButton';
 import Textfield from './Textfield';
 import { db } from '../firebase';
-import { addDoc, collection, doc } from 'firebase/firestore';
+import { addDoc, collection } from 'firebase/firestore';
 import { blankNewTaskForm } from '../libraries/util';
 import { Paper } from '@mui/material';
 import { UserAuth } from '../AuthContext/AuthContext';
 
 const NewTaskContainer = () => {
-	const { user } = UserAuth;
-	console.log(user);
+	const { user } = UserAuth();
 
 	const [newTaskForm, setNewTaskForm] = useState(blankNewTaskForm);
 
 	const handleSubmit = async () => {
-		const newTaskRef = doc(collection(db, 'users', `${user?.email}`, 'tasks'));
+		const newTaskRef = collection(db, 'users', `${user?.email}`, 'tasks');
 		await addDoc(newTaskRef, newTaskForm);
 		setNewTaskForm(blankNewTaskForm);
 	};

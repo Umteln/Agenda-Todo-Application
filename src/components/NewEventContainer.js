@@ -3,22 +3,22 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
 import SubmitButton from './SubmitButton';
-import { useRecoilState } from 'recoil';
-import { allEventsAtom } from '../recoil/atoms';
 import { Paper, TextField } from '@mui/material';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '../firebase';
+import { UserAuth } from '../AuthContext/AuthContext';
 
 const NewEventContainer = () => {
-	const [allEvents, setAllEvents] = useRecoilState(allEventsAtom);
-
+	const { user } = UserAuth();
 	const [newEvent, setNewEvent] = useState({
 		title: '',
 		start: '',
 		end: '',
 	});
-
-	const handleAddEvent = () => {
-		setAllEvents([...allEvents, newEvent]);
-		localStorage.setItem('Event', allEvents);
+	const handleAddEvent = async () => {
+		const newEventRef = collection(db, 'users', `${user?.email}`, 'events');
+		await addDoc(newEventRef, newEvent);
+		setNewEvent('');
 	};
 
 	return (

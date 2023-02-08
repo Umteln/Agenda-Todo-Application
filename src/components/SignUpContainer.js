@@ -2,7 +2,6 @@ import { TextField } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserAuth } from '../AuthContext/AuthContext';
-
 import SubmitButton from './SubmitButton';
 
 const SignUpContainer = () => {
@@ -15,7 +14,7 @@ const SignUpContainer = () => {
 		e.preventDefault();
 		try {
 			await signUp(email, password);
-			navigate('/');
+			navigate('/tasks');
 		} catch (error) {
 			console.log(error);
 		}

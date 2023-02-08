@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { db } from '../firebase';
 import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { UserAuth } from '../AuthContext/AuthContext';
 
 const TaskCard = ({ task }) => {
 	const [complete, setComplete] = useState(task.complete);
-
+	const { user } = UserAuth();
 	const handleStatusChange = () => {
-		const taskRef = doc(db, 'tasks', task.id);
+		const taskRef = doc(db, 'users', `${user?.email}`, 'tasks', task.id);
 		updateDoc(taskRef, { complete: !complete });
 		setComplete(!complete);
 	};
 
 	const handleDelete = async (id) => {
-		const taskRef = doc(db, 'tasks', task.id);
+		const taskRef = doc(db, 'users', `${user?.email}`, 'tasks', task.id);
 		await deleteDoc(taskRef);
 	};
 	return (

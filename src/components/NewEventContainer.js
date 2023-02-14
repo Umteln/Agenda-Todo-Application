@@ -4,26 +4,34 @@ import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
 import SubmitButton from './SubmitButton';
 import { Paper, TextField } from '@mui/material';
+import { useEffect } from 'react';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../firebase';
 import { UserAuth } from '../AuthContext/AuthContext';
 
 const NewEventContainer = () => {
 	const { user } = UserAuth();
+	const [events, setEvents] = useState([]);
+
 	const [newEvent, setNewEvent] = useState({
 		title: '',
 		start: '',
 		end: '',
 	});
+
 	const handleAddEvent = async () => {
+		
 		const newEventRef = collection(db, 'users', `${user?.email}`, 'events');
 		await addDoc(newEventRef, newEvent);
+
 		setNewEvent('');
 	};
-
+	
 	return (
 		<>
 			<Paper
+				component='form'
+				onSubmit={handleAddEvent}
 				elevation={3}
 				className='new-task-box'
 			>
@@ -63,10 +71,7 @@ const NewEventContainer = () => {
 				</div>
 
 				<div className='flex-container'>
-					<SubmitButton
-						handleSubmit={handleAddEvent}
-						label='Add Event'
-					/>
+					<SubmitButton label='Add Event' />
 				</div>
 			</Paper>
 		</>

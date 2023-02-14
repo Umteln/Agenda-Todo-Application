@@ -12,6 +12,7 @@ const CalendarContainer = () => {
 	const setAllEvents = useSetRecoilState(allEventsAtom);
 	const { user } = UserAuth();
 
+	
 	useEffect(() => {
 		const getEvents = async () => {
 			const EventsRef = collection(db, 'users', `${user?.email}`, 'events');

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { UserAuth } from '../AuthContext/AuthContext';
 import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
-	const { logOut, user } = UserAuth();
+	const { logOut } = UserAuth();
 	const navigate = useNavigate();
 
 	const handleLogout = async () => {
@@ -40,7 +40,7 @@ const Navbar = () => {
 				className='NavLink'
 				onClick={handleLogout}
 			>
-				Logout, {user?.email}
+				Logout
 			</button>
 		</nav>
 	);

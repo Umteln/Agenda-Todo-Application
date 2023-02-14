@@ -5,11 +5,13 @@ import NewTaskContainer from './NewTaskContainer';
 import TaskDisplayContainer from './TaskDisplayContainer';
 
 const TasksContainer = ({ setIsLoggedIn }) => {
-	const { isloggedIn } = UserAuth();
+	const { isloggedIn, user } = UserAuth();
 	return (
 		<>
 			<Navbar setIsLoggedIn={setIsLoggedIn} />
+			<p>Welcome, {user?.email}</p>
 			<h1>Manage To Dos</h1>
+
 			<NewTaskContainer />
 			<TaskDisplayContainer />
 		</>

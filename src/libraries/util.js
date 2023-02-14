@@ -4,8 +4,6 @@ import parse from 'date-fns/parse';
 import startOfWeek from 'date-fns/startOfWeek';
 import getDay from 'date-fns/getDay';
 
-
-
 export const locales = {
 	'en-US': require('date-fns/locale/en-US'),
 };
@@ -16,8 +14,6 @@ export const localizer = dateFnsLocalizer({
 	getDay,
 	locales,
 });
-
-
 
 export const blankNewTaskForm = {
 	author: '',
@@ -37,19 +33,17 @@ export const events = [
 	{
 		title: 'Big Meeting',
 		allDay: true,
-		start: new Date(2023, 1, 1),
+		start: new Date(2023, 2, 1),
 		end: new Date(2023, 1, 3),
 	},
 	{
 		title: 'Vacation',
-		start: new Date(2023, 1, 7),
+		start: new Date(2023, 3, 7),
 		end: new Date(2023, 1, 10),
 	},
 	{
 		title: 'Conference',
-		start: new Date(2023, 1, 20),
+		start: new Date(2023, 2, 20),
 		end: new Date(2023, 1, 23),
 	},
 ];
-
-

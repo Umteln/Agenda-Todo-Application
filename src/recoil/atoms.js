@@ -17,7 +17,7 @@ export const userStateAtom = atom({
 });
 export const allEventsAtom = atom({
 	key: 'allEventsAtom',
-	default: [],
+	default: events,
 });
 
 export const registerEmailAtom = atom({
